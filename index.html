@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFORMATION</title>
+    <link rel="stylesheet" href="include/css/lib/swiper.css">
+    <link rel="stylesheet" href="include/css/lib/flipclock.css">
+    <link rel="stylesheet" href="include/css/common.css">
+    <link rel="stylesheet" href="include/css/default.css">
+    <link rel="stylesheet" href="include/css/style.css">
+    <link rel="stylesheet" href="include/css/index.css">
+    <link rel="stylesheet" href="include/css/index.css">
+
+    <script src="include/js/lib/gsap.min.js"></script>
+    <script src="include/js/lib/ScrollToPlugin.min.js"></script>
+    <script src="include/js/lib/swiper.js"></script>
+    <script src="include/js/lib/jquery-3.7.1.min.js"></script>
+    <script src="include/js/lib/flipclock.js"></script>
+    <script src="include/js/comm.js"></script>
+    <script src="include/js/index.js"></script>
+
+</head>
+
+<body>
+    <div class="cover">
+        <div class="loading-spinner"></div>
+    </div>
+    <main id="id_main_notice" class="list_main" style="display:none;">
+        <div id="id_page_notice_list" class="notice_main">
+            <div id="id_notice_box_01" class="notice_box" style="display:none;">
+                <img src="">
+                <video muted preload>
+                    <source src="">
+                </video>
+            </div>
+            <div id="id_notice_box_02" class="notice_box" style="display:none;">
+                <img src="">
+                <video muted preload>
+                    <source src="">
+                </video>
+            </div>
+        </div>
+    </main>
+
+
+
+    <div class="main landing">
+        <header>
+            <div class="time"></div>
+            <div class="date"></div>
+        </header>
+        <main>
+            <div class="wrap">
+                <nav class="nav_main">
+                    <ul>
+                        <li code="1">
+                            <a>
+                                <span><img src="images/ico_a1.png" alt=""></span>
+                                학교소개
+                            </a>
+                        </li>
+                        <li code="2">
+                            <a>
+                                <span><img src="images/ico_a2.png" alt=""></span>
+                                역사관
+                            </a>
+                        </li>
+                        <li code="3">
+                            <a>
+                                <span><img src="images/ico_a3.png" alt=""></span>
+                                학교시설
+                            </a>
+                        </li>
+                        <li code="4">
+                            <a>
+                                <span><img src="images/ico_a4.png" alt=""></span>
+                                학교교육
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </div>
+
+
+    <main id="id_sub_cont" class="sub">
+        <div class="wrap">
+            <div class="container area_main">
+                <div class="">
+                    <div class="sub_page_main">
+                        <div id="id_main_frame_intro" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_intro" src="intro.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_history" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_history" src="history.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_info" class="frame_info">
+                            <iframe allowTransparency="true" name="frame_info" src="info.html"></iframe>
+                        </div>
+                        <div id="id_main_frame_education" class="frame_info">
+                            <iframe allowtransparency="true" name="frame_education" src="education.html"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="area_side snb">
+                <div class="logo"><img src="images/logo.png" alt=""></div>
+                <div class="time">12:53</div>
+                <div class="date">2024.08.13 (화)</div>
+                <div class="group_btn">
+                    <a href="index.html" class="btn_home"><img src="images/ico_home.png" alt="">홈화면</a>
+                    <a href="index.html" class="btn_back"><img src="images/ico_back.png" alt="">뒤로가기</a>
+                </div>
+                <nav class="nav_sub">
+                    <ul>
+                        <li code="1" class="active">
+                            <a>
+                                <img src="images/ico_a1.png" alt="">
+                                학교소개
+                            </a>
+                        </li>
+                        <li code="2">
+                            <a>
+                                <img src="images/ico_a2.png" alt="">
+                                역사관
+                            </a>
+                        </li>
+                        <li code="3">
+                            <a>
+                                <img src="images/ico_a3.png" alt="">
+                                학교시설
+                            </a>
+                        </li>
+                        <li code="4">
+                            <a>
+                                <img src="images/ico_a4.png" alt="">
+                                학교교육
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <button class="btn_cast">
+                    <img src="images/ico_cast.png" alt="">LEDcast
+                </button>
+            </div>
+        </div>
+        
+        <div id="id_popup_vod" class="popup_bg ">
+            <div class="popup popup_photo">
+
+                <b><img src="images/ico_video.png" alt="">영상갤러리</b>
+                <strong id="id_popup_vod_txt_1"></strong>
+                <span></span>
+
+                <div class="vod_zone">
+                    <video id="id_popup_video_obj" preload>
+                        <source src="">
+                    </video>
+                </div>
+
+                <button class="btn_close"><img src="images/btn_close.png" alt=""></button>
+            </div>
+        </div>
+        <div id="id_popup_img" class="popup_bg ">
+            <div class="popup popup_photo">
+
+                <b><img src="images/ico_photo.png" alt="">사진갤러리</b>
+                <strong id="id_popup_img_txt_1"></strong>
+                <span></span>
+
+                <div id="id_img_list" class="">
+                    <div id="id_swiper" class="img_swiper">
+                        <div id="id_img_swiper_wrapper" class="swiper-wrapper">
+                            <div class="img_zone">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+
+                <p id="id_popup_img_txt_2"></p>
+
+                <button class="btn_close"><img src="images/btn_close.png" alt=""></button>
+
+            </div>
+        </div>
+
+    </main>
+    <!--
+    <div class="main_content">
+        <div class="clock_zone">
+            <div class="clock">
+            </div>
+        </div>
+    </div>
+-->
+</body></html>
+<script language="javascript">
+    var MAINPARENTCUSTOMCODE = true;
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(setInit, 100);
+    });
+
+</script>
