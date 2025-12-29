@@ -9,88 +9,50 @@
     <link rel="stylesheet" href="include/css/common.css">
     <link rel="stylesheet" href="include/css/default.css">
     <link rel="stylesheet" href="include/css/style.css">
-    <link rel="stylesheet" href="include/css/gallery.css">
+    <link rel="stylesheet" href="include/css/education.css">
 
+    <script src="include/js/lib/fullcalendar.index.global.min.js"></script>
     <script src="include/js/lib/gsap.min.js"></script>
     <script src="include/js/lib/swiper.js"></script>
     <script src="include/js/lib/jquery-3.7.1.min.js"></script>
     <script src="include/js/comm.js"></script>
-    <script src="include/js/gallery.js"></script>
+    <script src="include/js/education.js"></script>
 
 </head>
 
-<body>
-
-    <div class="sub">
-        <section class="">
-            <div class="container">
-                <div class="wrap">
-                    <nav class="nav_snb">
-                        <ul>
-                            <li code="0"><button>학교 사진 갤러리</button></li>
-                            <li code="1"><button>학교 영상 갤러리</button></li>
-                        </ul>
-                    </nav>
-                    <div id="id_img_list" class="content gallery">
-                        <div id="id_swiper" class="img_swiper">
-                            <div id="id_img_swiper_wrapper" class="swiper-wrapper">
-                                <ul>                            
-                                    <li>
-                                        <button>
-                                            <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
-                                            <span class="txt_zone">
-                                                <b>2024년 학교폭력 예방교육 캠페인 참여현장</b>
-                                                <i>2024.08.14</i>
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button>
-                                            <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
-                                            <span class="txt_zone">
-                                                <b>학교폭력 예방교육 캠페인</b>
-                                                <i>2024.08.14</i>
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button>
-                                            <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
-                                            <span class="txt_zone">
-                                                <b>학교폭력 예방교육 캠페인</b>
-                                                <i>2024.08.14</i>
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button>
-                                            <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
-                                            <span class="txt_zone">
-                                                <b>학교폭력 예방교육 캠페인</b>
-                                                <i>2024.08.14</i>
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button>
-                                            <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
-                                            <span class="txt_zone">
-                                                <b>학교폭력 예방교육 캠페인</b>
-                                                <i>2024.08.14</i>
-                                            </span>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
+<body class="sub">
+    <main>
+        <div class="wrap">
+            <div class="container nav4">
+                <h1>
+                    <em>학교교육</em>
+                    <i>학교교육</i>
+                </h1>
+                <div class="inner">
+                    <div class="title">
+                        <h2>홍보</h2>
+                    </div>
+                    <div id="id_img_list" class="contents">
+                        <div class="uploadImg img_zone">
+                            <img id="id_img_1" src="">
+                            <img id="id_img_2" src="">
+                            <img id="id_img_3" src="">
+                            <img id="id_img_4" src="">
                         </div>
                     </div>
-                    <div id="id_vod_list" class="content gallery">
-                        <div id="id_swiper" class="vod_swiper">
-                            <div id="id_vod_swiper_wrapper" class="swiper-wrapper">
-                                <ul class="video">                            
+                    <div class="calendar_zone">
+                        <div id="id_calendar" class="calendar">
+                            <div class="calendar_title">2025.12</div>
+                            <div id="calendar_container">
+                                <div id="calendar_main"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="id_photo_list" class="content gallery">
+                        <div id="id_swiper" class="img_swiper">
+                            <div id="id_img_swiper_wrapper" class="swiper-wrapper">
+                                <ul>
                                     <li>
                                         <button>
                                             <span class="img_zone"><img src="images/img_sample.png" alt=""></span>
@@ -141,15 +103,19 @@
                             <div class="swiper-pagination"></div>
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-button-next"></div>
-                        </div>
-                        <div class="no_bg" style="display: none;">
-                            <img src="images/no_video_gallery.png">
                         </div>
                     </div>
                 </div>
+                <ul class="list_contents">
+                    <li code="1" class="active"><a>홍보</a></li>
+                    <li code="2"><a>학사일정</a></li>
+                    <li code="3"><a>급식</a></li>
+                    <li code="4"><a>월중행사</a></li>
+                    <li code="5"><a>올해의 포토</a></li>
+                </ul>
             </div>
-        </section>
-    </div>
+        </div>
+    </main>
 </body>
 
 </html>
@@ -163,4 +129,5 @@
             setTimeout(setInit, 100);
         }
     });
+
 </script>

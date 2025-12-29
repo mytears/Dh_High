@@ -111,8 +111,8 @@
                 <div class="time">12:53</div>
                 <div class="date">2024.08.13 (화)</div>
                 <div class="group_btn">
-                    <a href="index.html" class="btn_home"><img src="images/ico_home.png" alt="">홈화면</a>
-                    <a href="index.html" class="btn_back"><img src="images/ico_back.png" alt="">뒤로가기</a>
+                    <a class="btn_home"><img src="images/ico_home.png" alt="">홈화면</a>
+                    <a class="btn_back"><img src="images/ico_back.png" alt="">뒤로가기</a>
                 </div>
                 <nav class="nav_sub">
                     <ul>
@@ -147,8 +147,10 @@
                 </button>
             </div>
         </div>
-        
-        <div id="id_popup_vod" class="popup_bg ">
+
+        <!--
+
+        <div id="id_popup_vod" class="popup_bg" style="display: none;">
             <div class="popup popup_photo">
 
                 <b><img src="images/ico_video.png" alt="">영상갤러리</b>
@@ -164,24 +166,25 @@
                 <button class="btn_close"><img src="images/btn_close.png" alt=""></button>
             </div>
         </div>
-        <div id="id_popup_img" class="popup_bg ">
-            <div class="popup popup_photo">
+        
+        -->
+        
+        <div id="id_popup_img" class="modal" style="display: none;">
+            <div class="modalWin">
+                <div class="modalTitle" id="id_popup_img_txt_1">
+                    <p>제목입니다</p>
+                </div>
+                <button class="btn_close"></button>
 
-                <b><img src="images/ico_photo.png" alt="">사진갤러리</b>
-                <strong id="id_popup_img_txt_1"></strong>
-                <span></span>
-
-                <div id="id_img_list" class="">
-                    <div id="id_swiper" class="img_swiper">
-                        <div id="id_img_swiper_wrapper" class="swiper-wrapper">
-                            <div class="img_zone">
-                                <img src="" alt="">
-                            </div>
+                <div id="id_swiper" class="img_swiper slide">
+                    <div id="id_img_swiper_wrapper" class="swiper-wrapper">
+                        <div class="img_zone">
+                            <img src="" alt="">
                         </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
                     </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
 
                 <p id="id_popup_img_txt_2"></p>

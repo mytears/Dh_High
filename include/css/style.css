@@ -224,7 +224,7 @@ header {
 
 .container {
     position: relative;
-    width: calc(100% - 675px);
+    width: calc(100% - 640px);
 }
 
 .contents {
@@ -611,9 +611,10 @@ h1 i {
 
 .list_area button {
     position: relative;
-    padding-left: 82px;
+    padding: 0 10px 0 82px;
     width: 312px;
     height: 80px;
+    line-height: 32px;
     border-radius: 38px;
     background: transparent linear-gradient(90deg, #FFFFFF 0%, #EFEFEF 100%) 0% 0% no-repeat padding-box;
     box-shadow: 2px 2px 10px #00000033;
@@ -661,6 +662,331 @@ h1 i {
     border: none;
     background: transparent linear-gradient(180deg, #6C6C6C 0%, #414141 100%) 0% 0% no-repeat padding-box;
     color: #fff;
+}
+
+.areaLink li {
+    position: absolute;
+}
+
+.areaLink li button {
+    padding: 5px 12px;
+    color: #fff;
+    font-size: 26px;
+    text-shadow: 2.5px 2.2px 5px #000000bd;
+    font-weight: 600;
+}
+
+.areaLink li.active button {
+    background-color: #33333300;
+    animation: blink 1s alternate-reverse infinite;
+}
+
+@keyframes blink {
+    0% {
+        background-color: #33333300;
+    }
+
+    100% {
+        background-color: #333;
+    }
+}
+
+/* 본관1층 */
+.areaLink .areaA1-1 {
+    top: 735px;
+    left: 390px;
+}
+
+.areaLink .areaA1-2 {
+    top: 735px;
+    left: 919px;
+}
+
+.areaLink .areaA1-3 {
+    top: 735px;
+    left: 1310px;
+}
+
+.areaLink .areaA1-4 {
+    top: 735px;
+    left: 1700px;
+}
+
+.areaLink .areaA1-5 {
+    top: 735px;
+    left: 1900px;
+}
+
+/* 본관2층 */
+.areaLink .areaA2-1 {
+    top: 735px;
+    left: 390px;
+}
+
+.areaLink .areaA2-2 {
+    top: 735px;
+    left: 600px;
+}
+
+.areaLink .areaA2-3 {
+    top: 735px;
+    left: 785px;
+}
+
+.areaLink .areaA2-4 {
+    top: 735px;
+    left: 975px;
+}
+
+.areaLink .areaA2-5 {
+    top: 735px;
+    left: 1130px;
+}
+
+.areaLink .areaA2-6 {
+    top: 735px;
+    left: 1295px;
+}
+
+.areaLink .areaA2-7 {
+    top: 735px;
+    left: 1475px;
+}
+
+.areaLink .areaA2-8 {
+    top: 735px;
+    left: 1690px;
+}
+
+/* 본관3층 */
+.areaLink .areaA3-1 {
+    top: 735px;
+    left: 530px;
+}
+
+.areaLink .areaA3-2 {
+    top: 735px;
+    left: 785px;
+}
+
+.areaLink .areaA3-3 {
+    top: 735px;
+    left: 975px;
+}
+
+.areaLink .areaA3-4 {
+    top: 735px;
+    left: 1115px;
+}
+
+.areaLink .areaA3-5 {
+    top: 735px;
+    left: 1340px;
+}
+
+.areaLink .areaA3-6 {
+    top: 735px;
+    left: 1520px;
+}
+
+.areaLink .areaA3-7 {
+    top: 735px;
+    left: 1710px;
+}
+
+.areaLink .areaA3-8 {
+    top: 735px;
+    left: 1910px;
+}
+
+/* 본관4층 */
+.areaLink .areaA4-1 {
+    top: 735px;
+    left: 400px;
+}
+
+.areaLink .areaA4-2 {
+    top: 735px;
+    left: 590px;
+}
+
+.areaLink .areaA4-3 {
+    top: 735px;
+    left: 785px;
+}
+
+.areaLink .areaA4-4 {
+    top: 735px;
+    left: 975px;
+}
+
+.areaLink .areaA4-5 {
+    top: 735px;
+    left: 1115px;
+}
+
+.areaLink .areaA4-6 {
+    top: 735px;
+    left: 1340px;
+}
+
+.areaLink .areaA4-7 {
+    top: 735px;
+    left: 1510px;
+}
+
+.areaLink .areaA4-8 {
+    top: 735px;
+    left: 1655px;
+}
+
+/* 열정관1층 */
+.areaLink .areaB1-1 {
+    top: 770px;
+    left: 870px;
+}
+
+.areaLink .areaB1-2 {
+    top: 770px;
+    left: 1050px;
+}
+
+.areaLink .areaB1-3 {
+    top: 770px;
+    left: 1230px;
+}
+
+.areaLink .areaB1-4 {
+    top: 770px;
+    left: 1410px;
+}
+
+/* 열정관2층 */
+.areaLink .areaB2-1 {
+    top: 770px;
+    left: 870px;
+}
+
+.areaLink .areaB2-2 {
+    top: 770px;
+    left: 1050px;
+}
+
+.areaLink .areaB2-3 {
+    top: 770px;
+    left: 1230px;
+}
+
+.areaLink .areaB2-4 {
+    top: 770px;
+    left: 1350px;
+}
+
+/* 열정관3층 */
+.areaLink .areaB3-1 {
+    top: 770px;
+    left: 595px;
+    width: 100px;
+}
+
+.areaLink .areaB3-2 {
+    top: 770px;
+    left: 800px;
+}
+
+.areaLink .areaB3-3 {
+    top: 770px;
+    left: 970px;
+}
+
+.areaLink .areaB3-4 {
+    top: 770px;
+    left: 1290px;
+}
+
+/* 도전관1층 */
+.areaLink .areaB4-1 {
+    top: 700px;
+    left: 1015px;
+}
+
+/* 도전관2층 */
+.areaLink .areaB5-1 {
+    top: 700px;
+    left: 1015px;
+}
+
+/* 도전관3층 */
+.areaLink .areaC2-1 {
+    top: 400px;
+    left: 1088px;
+    width: 70px;
+}
+
+.areaLink .areaC2-2 {
+    top: 410px;
+    left: 1150px;
+    width: 100px;
+}
+
+.areaLink .areaC2-3 {
+    top: 430px;
+    left: 1300px;
+}
+
+.areaLink .areaC2-4 {
+    top: 750px;
+    left: 910px;
+}
+
+.areaLink .areaC2-5 {
+    top: 750px;
+    left: 1190px;
+}
+
+.areaLink .areaC2-6 {
+    top: 750px;
+    left: 1350px;
+}
+
+/* 도전관4층 */
+.areaLink .areaC3-1 {
+    top: 410px;
+    left: 988px;
+    width: 100px;
+    word-break: keep-all;
+}
+
+.areaLink .areaC3-2 {
+    top: 410px;
+    left: 1130px;
+    width: 100px;
+    word-break: keep-all;
+}
+
+.areaLink .areaC3-3 {
+    top: 470px;
+    left: 1275px;
+    width: 100px;
+    word-break: keep-all;
+}
+
+.areaLink .areaC3-4 {
+    top: 730px;
+    left: 910px;
+    width: 100px;
+}
+
+.areaLink .areaC3-5 {
+    top: 730px;
+    left: 1120px;
+    width: 100px;
+    word-break: keep-all;
+}
+
+.areaLink .areaC3-6 {
+    top: 750px;
+    left: 1244px;
 }
 
 

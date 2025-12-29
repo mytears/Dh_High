@@ -2,7 +2,7 @@ let m_this_name = "history";
 let m_contents_url = "";
 let m_notice_mode = "";
 let m_root_url = "";
-let m_introduce_list = [];
+let m_history_list = [];
 let m_trophy_list = [];
 
 let m_contents_json = null;
@@ -21,7 +21,7 @@ function setInit() {
     });
 
     m_img_swiper = new Swiper('.img_swiper', {
-        spaceBetween: 400, //슬라이드 간격
+        spaceBetween: 200, //슬라이드 간격
         centeredSlides: true,
         slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
         watchOverflow: true,
@@ -61,13 +61,13 @@ function setInitSetting() {
     
     setImgListUp();
     
-    $("#id_img_1").attr("src", convFilePath(m_introduce_list.greetings_file_path));
-    $("#id_img_2").attr("src", convFilePath(m_introduce_list.symbol_file_path));
-    $("#id_img_3").attr("src", convFilePath(m_introduce_list.history_file_path));
-    $("#id_img_4").attr("src", convFilePath(m_introduce_list.objective_file_path));
+    $("#id_img_1").attr("src", convFilePath(m_history_list.history_file_path));
+    $("#id_img_2").attr("src", convFilePath(m_history_list.people_file_path));
+    //$("#id_img_3").attr("src", convFilePath(m_history_list.history_file_path));
+    $("#id_img_4").attr("src", convFilePath(m_history_list.alumni_file_path));
     $("#id_img_list .img_zone img").hide();
 
-    onClickMainMenu($(".list_contents li[code='0']"));
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 //kiosk_contents를 읽기
 function setContents() {
@@ -77,8 +77,8 @@ function setContents() {
         dataType: 'json',
         success: function (data) {
             m_header = data.header;
-            m_introduce_list = data.introduce_list;
-            m_img_list = data.gallery_list.photo_list;
+            m_history_list = data.history_list;
+            m_img_list = data.history_list.photo_list;
             setInitSetting();
         },
         error: function (xhr, status, error) {
@@ -134,8 +134,8 @@ function setDataInit(_contents, _notice_mode) {
     setInit();
     m_contents_json = _contents;
     m_header = m_contents_json.header;
-    m_introduce_list = m_contents_json.introduce_list;
-    m_img_list = m_contents_json.gallery_list.photo_list;
+    m_history_list = m_contents_json.history_list;
+    m_img_list = m_contents_json.history_list.photo_list;
     setInitSetting();
 }
 
@@ -149,19 +149,21 @@ function onClickMainMenu(_obj) {
 }
 
 function setPage(_code) {
+    $("#id_photo_list").hide();
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
-    if (parseInt(_code) < 5) {
+    if (parseInt(_code) != 3) {
         $("#id_img_" + _code).show();
         $("#id_img_list").show();
     } else {
-        
+        m_img_swiper.slideTo(0, 0);
+        $("#id_photo_list").show();
     }
 }
 
 
 function setMainReset() {
-    onClickMainMenu($(".list_contents li[code='0']"));
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 
 

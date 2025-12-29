@@ -44,11 +44,10 @@ function setLoadSetting(_url) {
 function setInitSetting() {
     $("#id_img_1").attr("src", convFilePath(m_introduce_list.greetings_file_path));
     $("#id_img_2").attr("src", convFilePath(m_introduce_list.symbol_file_path));
-    $("#id_img_3").attr("src", convFilePath(m_introduce_list.history_file_path));
-    $("#id_img_4").attr("src", convFilePath(m_introduce_list.objective_file_path));
+    $("#id_img_3").attr("src", convFilePath(m_introduce_list.objective_file_path));
     $("#id_img_list .img_zone img").hide();
 
-    onClickMainMenu($(".list_contents li[code='0']"));
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 //kiosk_contents를 읽기
 function setContents() {
@@ -101,7 +100,7 @@ function setPage(_code) {
 
 
 function setMainReset() {
-    onClickMainMenu($(".list_contents li[code='0']"));
+    onClickMainMenu($(".list_contents li[code='1']"));
 }
 
 
