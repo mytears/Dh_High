@@ -388,14 +388,7 @@ function onClickMainMenu(_obj) {
 }
 
 function setClock() {
-    $('.align_top .clock').FlipClock({
-        clockFace: 'TwentyFourHourClock',
-        showSeconds: false
-    });
-    $('.align_center .clock').FlipClock({
-        clockFace: 'TwentyFourHourClock',
-        showSeconds: false
-    });
+
 }
 
 

@@ -691,6 +691,12 @@ h1 i {
     }
 }
 
+/* 본관b1층 */
+.areaLink .areaA0-1 {
+    top: 755px;
+    left: 1460px;
+}
+
 /* 본관1층 */
 .areaLink .areaA1-1 {
     top: 735px;
@@ -904,16 +910,39 @@ h1 i {
     left: 1290px;
 }
 
-/* 도전관1층 */
+/* 열정관4층 */
 .areaLink .areaB4-1 {
     top: 700px;
     left: 1015px;
 }
 
-/* 도전관2층 */
+/* 열정관5층 */
 .areaLink .areaB5-1 {
     top: 700px;
     left: 1015px;
+}
+
+/* 도전관1층 */
+.areaLink .areaC1-1 {
+    top: 430px;
+    left: 1090px;
+}
+
+.areaLink .areaC1-2 {
+    top: 410px;
+    left: 1265px;
+    width: 100px;
+    word-break: keep-all;
+}
+
+.areaLink .areaC1-3 {
+    top: 750px;
+    left: 910px;
+}
+
+.areaLink .areaC1-4 {
+    top: 750px;
+    left: 1270px;
 }
 
 /* 도전관3층 */

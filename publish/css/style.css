@@ -159,6 +159,8 @@ h1 i { position: absolute; left: 50%; top:50%; transform: translate(-50%, -50%);
     }
 }
 
+/* 본관b1층 */
+.areaLink .areaA0-1 { top: 755px; left: 1460px;}
 /* 본관1층 */
 .areaLink .areaA1-1 { top: 735px; left: 390px;}
 .areaLink .areaA1-2 { top: 735px; left: 919px;}
@@ -207,10 +209,15 @@ h1 i { position: absolute; left: 50%; top:50%; transform: translate(-50%, -50%);
 .areaLink .areaB3-2 { top: 770px; left: 800px;}
 .areaLink .areaB3-3 { top: 770px; left: 970px;}
 .areaLink .areaB3-4 { top: 770px; left: 1290px;}
-/* 도전관1층 */
+/* 열정관4층 */
 .areaLink .areaB4-1 { top: 700px; left: 1015px;}
-/* 도전관2층 */
+/* 열정관5층 */
 .areaLink .areaB5-1 { top: 700px; left: 1015px;}
+/* 도전관1층 */
+.areaLink .areaC1-1 { top: 430px; left: 1090px;}
+.areaLink .areaC1-2 { top: 410px; left: 1265px; width: 100px; word-break: keep-all;}
+.areaLink .areaC1-3 { top: 750px; left: 910px; }
+.areaLink .areaC1-4 { top: 750px; left: 1270px;}
 /* 도전관3층 */
 .areaLink .areaC2-1 { top: 400px; left: 1088px; width: 70px;}
 .areaLink .areaC2-2 { top: 410px; left: 1150px; width: 100px;}

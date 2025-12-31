@@ -11,7 +11,7 @@ let m_building_num = 0;
 const m_building_txt_list = [
     // [0] 영역: A로 시작
     [
-        ["도서관", "소강의실(공용)", "교육행정실", "교장실", "보건실"],
+        ["소강당(연극부연습실)"],
         ["도서관", "소강의실(공용)", "교육행정실", "교장실", "보건실"],
         ["2-4", "2-3", "2-2", "2-1", "학생상담실", "방송", "1교무실", "1학년 교무실"],
         ["2학년 소강의실", "2-7", "2-6", "2학년교무실", "2-5", "3-3", "3-2", "3-1"],
@@ -125,24 +125,24 @@ function setPage(_code) {
     $("#id_img_main").hide();
     $("#id_img_list").show();
     $(".title").show();
-    
+
     //$("#id_img_"+_code).show();
-    m_building_num = parseInt(_code)-1;
+    m_building_num = parseInt(_code) - 1;
     m_target_json = null;
-    if(m_building_num == 0){
+    if (m_building_num == 0) {
         m_target_json = m_infomation_list.dream_building;
-    }else if(m_building_num == 1){
+    } else if (m_building_num == 1) {
         m_target_json = m_infomation_list.passion_building;
-    }else if(m_building_num == 2){
+    } else if (m_building_num == 2) {
         m_target_json = m_infomation_list.challenge_building;
     }
     //console.log(m_target_json.length);
-    
-    
+
+
     let htmlContent0 = "";
     $(".list_map").html(htmlContent0);
-    for(var i=0;i<m_target_json.length;i+=1){
-        htmlContent0+=`<li code="${i}"><button>${m_target_json[i].floor}</button></li>`;
+    for (var i = 0; i < m_target_json.length; i += 1) {
+        htmlContent0 += `<li code="${i}"><button>${m_target_json[i].floor}</button></li>`;
     }
     $(".list_map").html(htmlContent0);
 
@@ -150,11 +150,12 @@ function setPage(_code) {
         e.preventDefault();
         onClickBtnFloor(this);
     });
-    
+
     onClickBtnFloor($(".list_map li[code='0']"));
     //setFloor(m_building_num,0);
 }
-function onClickBtnFloor(_obj){
+
+function onClickBtnFloor(_obj) {
     $('.list_map li').removeClass("active");
     $(_obj).addClass("active");
     let t_i = parseInt($(_obj).attr("code"));
@@ -174,15 +175,17 @@ function setFloor(_building, _floor) {
     // 예: m_building_txt_list[0][1] -> 건물 A의 2층 데이터
     const targetList = m_building_txt_list[_building][_floor];
     const char = prefix[_building];
-    const groupNum = _floor + 1;
-
+    let groupNum = _floor + 1;
+    if (char == "A") {
+        groupNum = _floor;
+    }
     if (targetList) {
 
         targetList.forEach((text, iIdx) => {
             const itemNum = iIdx + 1;
             // 클래스명 규칙: area + A/B/C + 층번호 + - + 순번
             const className = `area${char}${groupNum}-${itemNum}`;
-            
+
             htmlContent0 += `    <li class="${className}"><button>${text}</button></li>`;
             htmlContent1 += `    <li code="${className}"><button>${text}</button></li>`;
         });
@@ -191,7 +194,7 @@ function setFloor(_building, _floor) {
     // 결과를 .container에 삽입
     $(".areaLink").html(htmlContent0);
     $(".list_area").html(htmlContent1);
-    
+
 
     $('.list_area li').on("touchstart mousedown", function (e) {
         e.preventDefault();
@@ -199,17 +202,17 @@ function setFloor(_building, _floor) {
     });
 }
 
-function onClickBtnSpot(_obj){
+function onClickBtnSpot(_obj) {
     $('.list_area li').removeClass("active");
     $(_obj).addClass("active");
     //console.log($(_obj).attr('code'));
     $('.areaLink li').removeClass("active");
     $(`.areaLink .${$(_obj).attr('code')}`).addClass("active");
-    
+
 }
 
 function setMainReset() {
-//    onClickMainMenu($(".list_contents li[code='1']"));
+    //    onClickMainMenu($(".list_contents li[code='1']"));
     $("#id_img_main").show();
     $("#id_img_list").hide();
     $(".title").hide();
