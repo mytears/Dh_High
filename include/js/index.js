@@ -293,6 +293,7 @@ function setMainInterval() {
     if (m_status_time_chk > 60) {
         m_status_time_chk = 0;
         setCallWebToApp('STATUS', 'STATUS');
+        setDateTime();
     }
 
     m_dust_time_chk += 1;
