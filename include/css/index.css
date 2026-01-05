@@ -229,3 +229,13 @@ iframe {
     object-fit: cover;      /* 비율을 유지하며 영역을 꽉 채움 (넘치는 부분은 잘림) */
     object-position: center; /* 이미지를 정중앙에 위치시킴 */
 }
+
+.sub .wrap {
+    background: url(../../images/bg_sub.png) no-repeat center / 100% auto;
+}
+
+.sub .container.led {
+    display: flex;
+    justify-content: center;
+    width: 3840px;
+}

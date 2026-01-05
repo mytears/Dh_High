@@ -7,7 +7,9 @@ let m_trophy_list = [];
 
 let m_contents_json = null;
 let m_main_swiper = null;
-let m_img_swiper = null;
+let m_people_swiper = null;
+let m_photo_swiper = null;
+let m_alumni_swiper = null;
 
 function setInit() {
     console.log(m_this_name + " Init");
@@ -20,7 +22,37 @@ function setInit() {
         onClickMainMenu(this);
     });
 
-    m_img_swiper = new Swiper('.img_swiper', {
+    m_people_swiper = new Swiper('#id_people_list .img_swiper', {
+        spaceBetween: 200, //슬라이드 간격
+        centeredSlides: true,
+        slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
+        watchOverflow: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        }
+    });
+
+    m_photo_swiper = new Swiper('#id_photo_list .img_swiper', {
+        spaceBetween: 200, //슬라이드 간격
+        centeredSlides: true,
+        slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
+        watchOverflow: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        }
+    });
+
+    m_alumni_swiper = new Swiper('#id_alumni_list .img_swiper', {
         spaceBetween: 200, //슬라이드 간격
         centeredSlides: true,
         slidesPerView: 'auto', // 자동으로 슬라이드 너비 설정
@@ -58,9 +90,11 @@ function setLoadSetting(_url) {
 }
 //초기화
 function setInitSetting() {
-    
-    setImgListUp();
-    
+
+    setImgListUp("people");
+    setImgListUp("photo");
+    setImgListUp("alumni");
+
     $("#id_img_1").attr("src", convFilePath(m_history_list.history_file_path));
     $("#id_img_2").attr("src", convFilePath(m_history_list.people_file_path));
     //$("#id_img_3").attr("src", convFilePath(m_history_list.history_file_path));
@@ -87,8 +121,8 @@ function setContents() {
     });
 }
 
-function setImgListUp() {
-    $('#id_img_swiper_wrapper').html("");
+function setImgListUp(_type) {
+    $('#id_' + _type + '_swiper_wrapper').html("");
     if (m_img_list.length == 0) {
         return;
     }
@@ -97,10 +131,10 @@ function setImgListUp() {
     let r_html = "";
     let page_cnt = Math.ceil(m_img_list.length / t_max);
     for (let i = 0; i < page_cnt; i += 1) {
-        t_html += "<ul id='id_img_wrap_" + i + "' class='swiper-slide'>";
+        t_html += "<ul id='id_"+_type+"_wrap_" + i + "' class='swiper-slide'>";
         t_html += "</ul>";
     }
-    $('#id_img_swiper_wrapper').append(t_html);
+    $('#id_' + _type + '_swiper_wrapper').append(t_html);
     for (let i = 0; i < m_img_list.length; i += 1) {
         let t_id = Math.floor(i / t_max);
         r_html += "<li onClick='javascript:onClickImg(" + i + ");'>";
@@ -115,12 +149,19 @@ function setImgListUp() {
         r_html += "        </span>";
         r_html += "    </button>";
         r_html += "</li>";
-        $('#id_img_wrap_' + t_id).append(r_html);
+        $("#id_"+_type+"_wrap_" + t_id).append(r_html);
         r_html = "";
     }
-
-    m_img_swiper.slideTo(0, 0);
-    m_img_swiper.update();
+    if (_type == "people") {
+        m_people_swiper.slideTo(0, 0);
+        m_people_swiper.update();
+    }else if (_type == "photo") {
+        m_photo_swiper.slideTo(0, 0);
+        m_photo_swiper.update();
+    }else if (_type == "alumni") {
+        m_alumni_swiper.slideTo(0, 0);
+        m_alumni_swiper.update();
+    }
 }
 
 function onClickImg(_id) {
@@ -140,7 +181,7 @@ function setDataInit(_contents, _notice_mode) {
 }
 
 function onClickMainMenu(_obj) {
-//    console.log(_obj);
+    //    console.log(_obj);
     let t_code = $(_obj).attr('code');
     $('.list_contents li').removeClass('active');
     $(`.list_contents li[code="${t_code}"]`).addClass('active');
@@ -149,15 +190,23 @@ function onClickMainMenu(_obj) {
 }
 
 function setPage(_code) {
+    $("#id_people_list").hide();
     $("#id_photo_list").hide();
+    $("#id_alumni_list").hide();
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
-    if (parseInt(_code) != 3) {
+    if (parseInt(_code) == 1) {
         $("#id_img_" + _code).show();
         $("#id_img_list").show();
-    } else {
-        m_img_swiper.slideTo(0, 0);
+    } else if (parseInt(_code) == 2){
+        m_people_swiper.slideTo(0, 0);
+        $("#id_people_list").show();
+    } else if (parseInt(_code) == 3){
+        m_photo_swiper.slideTo(0, 0);
         $("#id_photo_list").show();
+    } else if (parseInt(_code) == 4){
+        m_alumni_swiper.slideTo(0, 0);
+        $("#id_alumni_list").show();
     }
 }
 

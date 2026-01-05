@@ -101,9 +101,74 @@ header {
     padding-right: 85px;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: end;
+    justify-content: space-between;
     box-sizing: border-box;
+}
+
+.weather {
+    padding-top: 50px;
+    display: flex;
+    color: #333;
+}
+
+.weather > div {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    width: 320px;
+}
+
+.weather em {
+    display: block;
+    font-size: 30px;
+}
+
+.weather1 .img_zone {
+    margin: 0 20px 0 50px;
+    width: 112px;
+    height: 112px;
+}
+
+.weather1 .img_zone img {
+    width: 100%;
+    height: 100%;
+}
+
+.weather1 b {
+    font-size: 55px;
+}
+
+.weather2 {
+    position: relative;
+    padding-left: 10px;
+}
+
+.weather2::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 90px;
+    background-color: #fff;
+    opacity: 0.6;
+}
+
+.weather2 .img_zone {
+    margin-right: 20px;
+    width: 112px;
+    height: 75px;
+}
+
+.weather2 .img_zone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.weather2 b {
+    font-size: 45px;
 }
 
 .time {
@@ -126,6 +191,7 @@ header {
     font-size: 47px;
     font-family: 'neo';
     font-weight: 800;
+    text-shadow: 3px 3px 5px #0000005e;
 }
 
 .main nav {
@@ -219,7 +285,19 @@ header {
     display: flex;
     width: 100%;
     height: 100%;
-    background: url(../../images/bg_sub.png) no-repeat center / 100% auto;
+    background: none;    
+}
+
+.weather {
+    padding-top: 50px;
+}
+
+.weather > div {
+    width: 320px;
+}
+
+.weather2 {
+    padding-left: 10px;
 }
 
 .container {
@@ -354,7 +432,7 @@ h1 i {
 
 .snb {
     position: relative;
-    padding-top: 135px;
+    padding-top: 100px;
     width: 675px;
     background: url(../../images/bg_snb.png) no-repeat center / 100% 100%;
     box-sizing: border-box;
@@ -362,26 +440,56 @@ h1 i {
     box-shadow: inset 7px 0px 15px #6EA9F4, -5px 0px 15px #00000033;
 }
 
-.sub .time {
-    margin: 42px auto 20px;
-    width: 365px;
-    height: 126px;
-    line-height: 126px;
-    letter-spacing: 10px;
-    background-color: #000;
-    border: 8px solid #474747;
-    color: #FF0000;
-    font-size: 97px;
-    font-family: 'LABdigital';
+.snb .info {
+    margin: 50px 0 30px;
+    height: 320px;
+    background: linear-gradient(to bottom, #598acbab, #3f6cab8c);
 }
 
-.date {
+.sub .time {
+    display: inline-block;
+    width: auto;
+    margin: 30px 0 10px 30px;
+    line-height: 126px;
+    letter-spacing: normal;
+    font-size: 85px;
     color: #fff;
-    font-size: 47px;
+    background-color: transparent;
+    border: none;
+    font-family: 'pretendard';
 }
 
 .sub .date {
-    margin-bottom: 68px;
+    display: inline-block;
+    color: #fff;
+    font-size: 47px;
+    text-shadow: none;
+}
+
+.sub .weather {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.sub .weather > div {
+    width: 50%;
+}
+
+.sub .weather2::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 90px;
+    background-color: #284B79;
+    opacity: 0.6;
+}
+
+.sub .date {
+    margin: 0 0 30px 20px;
     font-weight: 700;
     color: #B3D4FF;
     font-size: 40px;
@@ -390,7 +498,7 @@ h1 i {
 .group_btn {
     display: flex;
     justify-content: center;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 
 .group_btn a,

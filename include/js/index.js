@@ -1,3 +1,4 @@
+let m_mode = "LED";
 let m_curr_page_num = -1;
 let m_curr_page = null;
 let m_curr_document = null;
@@ -153,9 +154,14 @@ function setInitSetting() {
         });
     }, 500);
 
-    if (m_notice_list.length > 0) {
-        setTimeout(setPage, 750, "0");
-        //setTimeout(setNoticeDrawInfo, 800, "0");
+    if (m_mode == "LED") {
+        $(".area_side").hide();
+        $("#id_sub_cont .wrap .container").addClass("led");
+        $(".landing").hide();
+        if (m_notice_list.length > 0) {
+            setTimeout(setPage, 750, "0");
+            //setTimeout(setNoticeDrawInfo, 800, "0");
+        }
     } else {
         $('.nav_main li, .nav_gnb li').removeClass('active');
         $(`.nav_main li[code="${1}"], .nav_gnb li[code="${1}"]`).addClass('active');
@@ -256,10 +262,14 @@ function onClickBtnHome(_obj) {
 
 function setMainReset() {
 
-    if (m_notice_list.length > 0) {
-        if ($("#id_main_notice").css("display") == "none") {
-            setPage("0");
-            setNoticeDrawInfo();
+    if (m_mode == "LED") {
+        if (m_notice_list.length > 0) {
+            if ($("#id_main_notice").css("display") == "none") {
+                setPage("0");
+                setNoticeDrawInfo();
+            }
+        }else{
+            setPage("1");
         }
     } else {
         //$('.nav_main li, .nav_gnb li').removeClass('active');
@@ -419,12 +429,12 @@ function setPage(_code) {
             m_curr_document = null;
             $('.nav_main li, .nav_gnb li').removeClass('active');
             $('#id_main_notice').show();
-            //$('#id_main_cont').show();
             break;
         case '1':
             setVideosStop();
             $("#id_header").html("학교소개");
-            m_curr_page = $('#id_main_frame_intro');
+            m_curr_page = $('#id_main_frame_intro').
+            ;
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
@@ -551,4 +561,16 @@ function getVideoStatus(_vod) {
     } else {
         return "unknown"; // 다른 상태
     }
+}
+
+function setDebug(){
+    
+}
+
+function setLedCastFrame(_frame, _num, _page) {
+
+}
+
+function setLedCastImage(_frame, _num) {
+
 }
