@@ -8,6 +8,9 @@ let m_trophy_list = [];
 let m_contents_json = null;
 let m_main_swiper = null;
 
+let m_curr_page_num = 0;
+let m_curr_sub_page = 0;
+
 function setInit() {
     console.log(m_this_name + " Init");
     if (this.PAGEACTIVEYN == true) {
@@ -18,6 +21,11 @@ function setInit() {
         e.preventDefault();
         onClickMainMenu(this);
     });
+}
+
+function getPage() {
+    let t_str = m_curr_page_num + ", 0, 0";
+    return t_str;
 }
 
 function setLoadSetting(_url) {
@@ -81,21 +89,25 @@ function setDataInit(_contents, _notice_mode) {
 function onClickMainMenu(_obj) {
 //    console.log(_obj);
     let t_code = $(_obj).attr('code');
-    $('.list_contents li').removeClass('active');
-    $(`.list_contents li[code="${t_code}"]`).addClass('active');
-    $(".title h2").html($(`.list_contents li[code="${t_code}"]`).text());
     setPage(t_code);
 }
 
 function setPage(_code) {
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
-    if (parseInt(_code) < 5) {
-        $("#id_img_" + _code).show();
-        $("#id_img_list").show();
-    } else {
-        
-    }
+    
+    $('.list_contents li').removeClass('active');
+    $(`.list_contents li[code="${_code}"]`).addClass('active');
+    $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
+    
+    m_curr_page_num = parseInt(_code);
+
+    $("#id_img_" + _code).show();
+    $("#id_img_list").show();
+}
+
+function setSubPage(_num, _cnt){
+    
 }
 
 

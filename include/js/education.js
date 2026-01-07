@@ -13,7 +13,8 @@ let m_meal_events = [];
 let m_event_events = [];
 let m_holiday_list = [];
 
-
+let m_curr_page = 0;
+let m_curr_sub_page = 0;
 
 function setInit() {
     console.log(m_this_name + " Init");
@@ -40,6 +41,11 @@ function setInit() {
             prevEl: ".swiper-button-prev"
         }
     });
+}
+
+function getPage() {
+    let t_str = m_curr_page + ", " + m_img_swiper.activeIndex + ", 0";
+    return t_str;
 }
 
 function setLoadSetting(_url) {
@@ -138,7 +144,7 @@ function setInitSetting() {
     var now = new Date();
     var year = now.getFullYear();
     var month = String(now.getMonth() + 1).padStart(2, '0');
-    
+
     $(".calendar_title").html(now.getFullYear() + '.' + String(now.getMonth() + 1).padStart(2, '0'));
     var currentMonthPrefix = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
     var firstDayOfMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-01';
@@ -268,41 +274,58 @@ function setDataInit(_contents, _notice_mode) {
 function onClickMainMenu(_obj) {
     //    console.log(_obj);
     let t_code = $(_obj).attr('code');
-    $('.list_contents li').removeClass('active');
-    $(`.list_contents li[code="${t_code}"]`).addClass('active');
-    $(".title h2").html($(`.list_contents li[code="${t_code}"]`).text());
     setPage(t_code);
 }
 
 function setPage(_code) {
     $("#id_photo_list").hide();
     $("#id_calendar").hide();
-    $("#id_calendar_zone_sch").css("top","2160px");
-    $("#id_calendar_zone_meal").css("top","2160px");
-    $("#id_calendar_zone_event").css("top","2160px");
+    $("#id_calendar_zone_sch").css("top", "2160px");
+    $("#id_calendar_zone_meal").css("top", "2160px");
+    $("#id_calendar_zone_event").css("top", "2160px");
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
-    let t_code = parseInt(_code);
 
-    if (t_code == 1) {
+    $('.list_contents li').removeClass('active');
+    $(`.list_contents li[code="${_code}"]`).addClass('active');
+    $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
 
-    } else if (t_code == 2) {
+    m_curr_page = parseInt(_code);
+
+    if (m_curr_page == 1) {
+
+    } else if (m_curr_page == 2) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_sch").show();
-        $("#id_calendar_zone_sch").css("top","0px");
-    } else if (t_code == 3) {
+        $("#id_calendar_zone_sch").css("top", "0px");
+    } else if (m_curr_page == 3) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_meal").show();
-        $("#id_calendar_zone_meal").css("top","0px");
-    } else if (t_code == 4) {
+        $("#id_calendar_zone_meal").css("top", "0px");
+    } else if (m_curr_page == 4) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_event").show();
-        $("#id_calendar_zone_event").css("top","0px");
+        $("#id_calendar_zone_event").css("top", "0px");
 
-    } else if (t_code == 5) {
+    } else if (m_curr_page == 5) {
         m_img_swiper.slideTo(0, 0);
         $("#id_photo_list").show();
 
+    }
+}
+
+function setSubPage(_num, _cnt) {
+    let t_num = parseInt(_num) - 1;
+    if (m_curr_page == 5) {
+        m_img_swiper.slideTo(t_num, 0);
+
+        _cnt -= 1;
+        if (_cnt != 0) {
+            let t_cnt = t_num * 8 + _cnt;
+            if (t_cnt < m_img_list.length) {
+                onClickImg(t_cnt);
+            }
+        }
     }
 }
 
@@ -433,7 +456,7 @@ function setMakeCalander() {
         },
 
         events: m_meal_events,
-        
+
         // [추가] 이벤트의 타이틀을 HTML로 렌더링하는 설정
         eventContent: function (arg) {
             return {

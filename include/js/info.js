@@ -8,6 +8,10 @@ let m_contents_json = null;
 let m_target_json = null;
 let m_building_num = 0;
 
+let m_curr_page_num = 0;
+let m_curr_floor_num = 0;
+let m_curr_spot_num = 0;
+
 const m_building_txt_list = [
     // [0] 영역: A로 시작
     [
@@ -44,6 +48,11 @@ function setInit() {
         e.preventDefault();
         onClickMainMenu(this);
     });
+}
+
+function getPage() {
+    let t_str = m_curr_page_num+", "+m_curr_floor_num+", "+m_curr_spot_num;    
+    return t_str;
 }
 
 function setLoadSetting(_url) {
@@ -114,9 +123,6 @@ function setDataInit(_contents, _notice_mode) {
 function onClickMainMenu(_obj) {
     //console.log(_obj);
     let t_code = $(_obj).attr('code');
-    $('.list_contents li').removeClass('active');
-    $(`.list_contents li[code="${t_code}"]`).addClass('active');
-    $(".title h2").html($(`.list_contents li[code="${t_code}"]`).text());
     setPage(t_code);
 }
 
@@ -127,6 +133,7 @@ function setPage(_code) {
     $(".title").show();
 
     //$("#id_img_"+_code).show();
+    m_curr_page_num = parseInt(_code);
     m_building_num = parseInt(_code) - 1;
     m_target_json = null;
     if (m_building_num == 0) {
@@ -138,6 +145,9 @@ function setPage(_code) {
     }
     //console.log(m_target_json.length);
 
+    $('.list_contents li').removeClass('active');
+    $(`.list_contents li[code="${_code}"]`).addClass('active');
+    $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
 
     let htmlContent0 = "";
     $(".list_map").html(htmlContent0);
@@ -155,15 +165,27 @@ function setPage(_code) {
     //setFloor(m_building_num,0);
 }
 
+function setSubPage(_num, _cnt){
+    _num-=1;
+    _cnt-=1;
+    onClickBtnFloor($(".list_map li[code='"+_num+"']"));
+    //console.log(_cnt);
+    onClickBtnSpot($(".list_area li").eq(_cnt));
+    
+}
+
 function onClickBtnFloor(_obj) {
-    $('.list_map li').removeClass("active");
-    $(_obj).addClass("active");
     let t_i = parseInt($(_obj).attr("code"));
     $(".floor").html(m_target_json[t_i].floor);
     setFloor(m_building_num, t_i);
 }
 
 function setFloor(_building, _floor) {
+    m_curr_floor_num = _floor+1;
+    
+    $('.list_map li').removeClass("active");
+    $($(".list_map li[code='"+_floor+"']")).addClass("active");
+    
     $("#id_img_left").attr("src", convFilePath(m_target_json[_floor].file_path));
     const prefix = ["A", "B", "C"]; // 0:A, 1:B, 2:C
     let htmlContent0 = "";
@@ -195,7 +217,8 @@ function setFloor(_building, _floor) {
     $(".areaLink").html(htmlContent0);
     $(".list_area").html(htmlContent1);
 
-
+    m_curr_spot_num = 0;
+    
     $('.list_area li').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickBtnSpot(this);
@@ -208,6 +231,9 @@ function onClickBtnSpot(_obj) {
     //console.log($(_obj).attr('code'));
     $('.areaLink li').removeClass("active");
     $(`.areaLink .${$(_obj).attr('code')}`).addClass("active");
+    
+    let idx = $(_obj).index();
+    m_curr_spot_num = idx+1;
 
 }
 
@@ -217,6 +243,7 @@ function setMainReset() {
     $("#id_img_list").hide();
     $(".title").hide();
     $('.list_contents li').removeClass('active');
+    m_curr_page_num = 0;
 }
 
 

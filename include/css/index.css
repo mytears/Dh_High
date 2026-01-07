@@ -239,3 +239,7 @@ iframe {
     justify-content: center;
     width: 3840px;
 }
+
+.modal.led{
+    width:3840px;
+}

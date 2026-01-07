@@ -1,4 +1,4 @@
-let m_mode = "LED";
+let m_mode = "MAIN";
 let m_curr_page_num = -1;
 let m_curr_page = null;
 let m_curr_document = null;
@@ -47,6 +47,11 @@ function setInit() {
     $('.btn_close').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickPopupClose(this);
+    });
+
+    $('.btn_cast').on("touchstart mousedown", function (e) {
+        e.preventDefault();
+        onClickLedCast(this);
     });
 
     var str_iframe = $('iframe').contents();
@@ -157,6 +162,7 @@ function setInitSetting() {
     if (m_mode == "LED") {
         $(".area_side").hide();
         $("#id_sub_cont .wrap .container").addClass("led");
+        $(".modal").addClass("led");
         $(".landing").hide();
         if (m_notice_list.length > 0) {
             setTimeout(setPage, 750, "0");
@@ -268,7 +274,7 @@ function setMainReset() {
                 setPage("0");
                 setNoticeDrawInfo();
             }
-        }else{
+        } else {
             setPage("1");
         }
     } else {
@@ -422,9 +428,10 @@ function setPage(_code) {
     $("#id_main_page").hide();
     $(".frame_info").hide();
 
+    m_curr_page_num = parseInt(_code);
+     
     switch (_code) {
         case '0':
-            $("#id_header").html("");
             m_curr_page = null;
             m_curr_document = null;
             $('.nav_main li, .nav_gnb li').removeClass('active');
@@ -432,9 +439,7 @@ function setPage(_code) {
             break;
         case '1':
             setVideosStop();
-            $("#id_header").html("학교소개");
-            m_curr_page = $('#id_main_frame_intro').
-            ;
+            m_curr_page = $('#id_main_frame_intro');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
             m_curr_document.setMainReset();
@@ -442,7 +447,6 @@ function setPage(_code) {
             break;
         case '2':
             setVideosStop();
-            $("#id_header").html("학교시설");
             m_curr_page = $('#id_main_frame_history');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
@@ -451,7 +455,6 @@ function setPage(_code) {
             break;
         case '3':
             setVideosStop();
-            $("#id_header").html("학사일정");
             m_curr_page = $('#id_main_frame_info');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
@@ -460,7 +463,6 @@ function setPage(_code) {
             break;
         case '4':
             setVideosStop();
-            $("#id_header").html("갤러리");
             m_curr_page = $('#id_main_frame_education');
             m_curr_document = m_curr_page.find('iframe')[0].contentWindow;
             m_curr_page.show();
@@ -495,6 +497,12 @@ function setPopupImg(_obj) {
     $("#id_popup_img").show();
     setImgListUp();
 
+}
+
+function setPopSwiperPage(_cnt) {
+    _cnt -= 1;
+    m_img_swiper.slideTo(_cnt, 0);
+    //m_img_swiper.update();    
 }
 
 function setPopupTrophy(_obj) {
@@ -563,14 +571,21 @@ function getVideoStatus(_vod) {
     }
 }
 
-function setDebug(){
-    
+function setDebug() {
+    let t_list = $("#id_input").val().split(",");
+    setLedCastFrame(t_list[0], t_list[1], t_list[2], t_list[3], t_list[4]);
 }
 
-function setLedCastFrame(_frame, _num, _page) {
-
+function setLedCastFrame(_frame, _num, _page, _cnt, _pop) {
+    //console.log("Frame : " + _frame, "Num : " + _num, "Page : " + _page);
+    m_time_last = new Date().getTime();
+    setPage(_frame);
+    m_curr_document.setPage(_num);
+    m_curr_document.setSubPage(_page, _cnt);
+    setPopSwiperPage(_pop);
 }
 
-function setLedCastImage(_frame, _num) {
-
+function onClickLedCast(_obj) {
+    //m_curr_page_num
+    console.log(m_curr_page_num, m_curr_document.getPage());
 }
