@@ -429,7 +429,7 @@ function setPage(_code) {
     $(".frame_info").hide();
 
     m_curr_page_num = parseInt(_code);
-     
+
     switch (_code) {
         case '0':
             m_curr_page = null;
@@ -586,6 +586,16 @@ function setLedCastFrame(_frame, _num, _page, _cnt, _pop) {
 }
 
 function onClickLedCast(_obj) {
+    if (m_mode == "led") {
+        return;
+    }
     //m_curr_page_num
-    console.log(m_curr_page_num, m_curr_document.getPage());
+    let t_list = m_curr_document.getPage().split(",");
+    let t_frame = m_curr_page_num;
+    let t_num = t_list[0];
+    let t_page = t_list[1];
+    let t_cnt = t_list[2];
+    let t_pop = 0;
+    //console.log(m_curr_page_num, m_curr_document.getPage());
+    setLedCastFrame(t_frame, t_num, t_page, t_cnt, t_pop);
 }
