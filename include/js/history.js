@@ -17,7 +17,9 @@ let m_photo_list = [];
 let m_akumni_list = [];
 
 let m_curr_page_num = 0;
-let m_curr_sub_page = 0;
+let m_curr_sub_page = -1;
+
+let m_back_list = [];
 
 function setInit() {
     console.log(m_this_name + " Init");
@@ -79,14 +81,18 @@ function setInit() {
 function getPage() {
     let t_str = m_curr_page_num + ", 0, 0";
     if (m_curr_page_num == 2) {
-        t_str = m_curr_page_num + ", " + m_people_swiper.activeIndex + ",";
+        t_str = m_curr_page_num + ", " + (m_people_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
     } else if (m_curr_page_num == 3) {
-        t_str = m_curr_page_num + ", " + m_photo_swiper.activeIndex + ",";
+        t_str = m_curr_page_num + ", " + (m_photo_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
     } else if (m_curr_page_num == 4) {
-        t_str = m_curr_page_num + ", " + m_alumni_swiper.activeIndex + ",";
+        t_str = m_curr_page_num + ", " + (m_alumni_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
     }
 
     return t_str;
+}
+
+function setPopupClose(){
+    m_curr_sub_page = -1;
 }
 
 function setLoadSetting(_url) {
@@ -131,9 +137,13 @@ function setContents() {
         url: t_url,
         dataType: 'json',
         success: function (data) {
-            m_header = data.header;
-            m_history_list = data.history_list;
-            m_img_list = data.history_list.photo_list;
+            m_contents_json = data;
+            m_header = m_contents_json.header;
+            m_history_list = m_contents_json.history_list;
+
+            m_people_list = m_contents_json.history_list.people_list;
+            m_photo_list = m_contents_json.history_list.photo_list;
+            m_alumni_list = m_contents_json.history_list.alumni_list;
             setInitSetting();
         },
         error: function (xhr, status, error) {
@@ -195,8 +205,9 @@ function setImgListUp(_type) {
 }
 
 function onClickImg(_id) {
+    m_curr_sub_page = _id;
     if (this.PAGEACTIVEYN == false) {
-        window.parent.setPopupImg(m_img_list[_id]);
+        window.parent.setPopupImg(m_img_list[_id], _id);
     }
 }
 
@@ -220,7 +231,7 @@ function onClickMainMenu(_obj) {
     setPage(t_code);
 }
 
-function setPage(_code) {
+function setPage(_code, _isBack = false) {
     $("#id_people_list").hide();
     $("#id_photo_list").hide();
     $("#id_alumni_list").hide();
@@ -232,7 +243,11 @@ function setPage(_code) {
     $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
 
     m_curr_page_num = parseInt(_code);
-
+    // 핵심: 뒤로가기 상황이 아닐 때만 리스트에 추가
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
+    
     if (m_curr_page_num == 1) {
         $("#id_img_" + _code).show();
         $("#id_img_list").show();
@@ -249,6 +264,7 @@ function setPage(_code) {
 }
 
 function setSubPage(_num, _cnt) {
+    console.log("setSubPage", _num, _cnt);
     let t_num = parseInt(_num) - 1;
     let t_list = [];
     if (m_curr_page_num == 2) {
@@ -261,10 +277,11 @@ function setSubPage(_num, _cnt) {
         m_alumni_swiper.slideTo(t_num, 0);
         t_list = m_alumni_list;
     }
-    console.log(t_num);
     _cnt -= 1;
+    //console.log(t_num, _cnt,t_list.length);
     if (_cnt >= 0 && t_list.length > 0) {
-        let t_cnt = t_num * 8 + _cnt;
+        let t_cnt = _cnt;
+        console.log(t_cnt);
         if (t_cnt < t_list.length) {
             onClickImg(t_cnt);
         }
@@ -272,12 +289,33 @@ function setSubPage(_num, _cnt) {
 }
 
 function setMainReset() {
+    m_back_list = [];
+    m_curr_sub_page = -1;
     onClickMainMenu($(".list_contents li[code='1']"));
 }
 
 
 function onClickBtnBack() {
-    window.parent.setMainReset();
+    
+    // 리스트가 비어있으면 메인 리셋
+    if (m_back_list.length == 0) {
+        window.parent.setMainReset();
+        return; // 함수 종료
+    }
+
+    // 1. 마지막에 저장된 것을 지움 (pop 사용, 변수에 재할당 금지)
+    m_back_list.pop(); 
+    console.log(m_back_list);
+    // 2. 지우고 나서 남은게 있는지 확인
+    if (m_back_list.length == 0) {
+        // 지웠더니 더 이상 갈 곳이 없다면? -> 메인 리셋으로 가거나 처리 필요
+        window.parent.setMainReset();
+    } else {
+        // 3. 그 다음에 마지막인걸(이전 페이지) 가져와서 이동
+        let t_page = m_back_list[m_back_list.length - 1];
+        console.log(t_page);
+        setPage(t_page, true);
+    }
 }
 
 

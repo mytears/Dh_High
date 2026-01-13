@@ -12,6 +12,8 @@ let m_curr_page_num = 0;
 let m_curr_floor_num = 0;
 let m_curr_spot_num = 0;
 
+let m_back_list = [];
+
 const m_building_txt_list = [
     // [0] 영역: A로 시작
     [
@@ -51,7 +53,8 @@ function setInit() {
 }
 
 function getPage() {
-    let t_str = m_curr_page_num+", "+m_curr_floor_num+", "+m_curr_spot_num;    
+    console.log("m_curr_spot_num", m_curr_spot_num);
+    let t_str = m_curr_page_num + ", " + m_curr_floor_num + ", " + m_curr_spot_num;
     return t_str;
 }
 
@@ -126,7 +129,7 @@ function onClickMainMenu(_obj) {
     setPage(t_code);
 }
 
-function setPage(_code) {
+function setPage(_code, _isBack = false) {
     //$(".img_zone img").hide();
     $("#id_img_main").hide();
     $("#id_img_list").show();
@@ -134,6 +137,19 @@ function setPage(_code) {
 
     //$("#id_img_"+_code).show();
     m_curr_page_num = parseInt(_code);
+	
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
+    
+    if (m_curr_page_num == 0) {
+        $("#id_img_main").show();
+        $("#id_img_list").hide();
+        $(".title").hide();
+        $('.list_contents li').removeClass('active');
+        return;
+    }
+
     m_building_num = parseInt(_code) - 1;
     m_target_json = null;
     if (m_building_num == 0) {
@@ -165,13 +181,17 @@ function setPage(_code) {
     //setFloor(m_building_num,0);
 }
 
-function setSubPage(_num, _cnt){
-    _num-=1;
-    _cnt-=1;
-    onClickBtnFloor($(".list_map li[code='"+_num+"']"));
-    //console.log(_cnt);
-    onClickBtnSpot($(".list_area li").eq(_cnt));
-    
+function setSubPage(_num, _cnt) {
+    _num -= 1;
+    _cnt -= 1;
+    if (_num >= 0) {
+        onClickBtnFloor($(".list_map li[code='" + _num + "']"));
+        if (_cnt >= 0) {
+            console.log(_cnt);
+            onClickBtnSpot($(".list_area li").eq(_cnt));
+        }
+    }
+
 }
 
 function onClickBtnFloor(_obj) {
@@ -181,11 +201,11 @@ function onClickBtnFloor(_obj) {
 }
 
 function setFloor(_building, _floor) {
-    m_curr_floor_num = _floor+1;
-    
+    m_curr_floor_num = _floor + 1;
+
     $('.list_map li').removeClass("active");
-    $($(".list_map li[code='"+_floor+"']")).addClass("active");
-    
+    $($(".list_map li[code='" + _floor + "']")).addClass("active");
+
     $("#id_img_left").attr("src", convFilePath(m_target_json[_floor].file_path));
     const prefix = ["A", "B", "C"]; // 0:A, 1:B, 2:C
     let htmlContent0 = "";
@@ -218,7 +238,7 @@ function setFloor(_building, _floor) {
     $(".list_area").html(htmlContent1);
 
     m_curr_spot_num = 0;
-    
+
     $('.list_area li').on("touchstart mousedown", function (e) {
         e.preventDefault();
         onClickBtnSpot(this);
@@ -231,13 +251,15 @@ function onClickBtnSpot(_obj) {
     //console.log($(_obj).attr('code'));
     $('.areaLink li').removeClass("active");
     $(`.areaLink .${$(_obj).attr('code')}`).addClass("active");
-    
+
     let idx = $(_obj).index();
-    m_curr_spot_num = idx+1;
+    m_curr_spot_num = idx + 1;
+    console.log("m_curr_spot_num", m_curr_spot_num);
 
 }
 
 function setMainReset() {
+    m_back_list = [0];
     //    onClickMainMenu($(".list_contents li[code='1']"));
     $("#id_img_main").show();
     $("#id_img_list").hide();
@@ -248,8 +270,28 @@ function setMainReset() {
 
 
 function onClickBtnBack() {
-    window.parent.setMainReset();
+    
+    // 리스트가 비어있으면 메인 리셋
+    if (m_back_list.length == 0) {
+        window.parent.setMainReset();
+        return; // 함수 종료
+    }
+
+    // 1. 마지막에 저장된 것을 지움 (pop 사용, 변수에 재할당 금지)
+    m_back_list.pop(); 
+    console.log(m_back_list);
+    // 2. 지우고 나서 남은게 있는지 확인
+    if (m_back_list.length == 0) {
+        // 지웠더니 더 이상 갈 곳이 없다면? -> 메인 리셋으로 가거나 처리 필요
+        window.parent.setMainReset();
+    } else {
+        // 3. 그 다음에 마지막인걸(이전 페이지) 가져와서 이동
+        let t_page = m_back_list[m_back_list.length - 1];
+        console.log(t_page);
+        setPage(t_page, true);
+    }
 }
+
 
 
 function setMainInterval() {

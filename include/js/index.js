@@ -18,6 +18,8 @@ let m_notice_timeout = null;
 let m_dust_title_list = ['좋음', '보통', '나쁨', '매우나쁨'];
 let m_dust_img_list = ['images/img_dust_04.png', 'images/img_dust_03.png', 'images/img_dust_02.png', 'images/img_dust_01.png'];
 let m_dust_time_chk = 0;
+let channel = new BroadcastChannel('dh_channel');
+let m_pop_cnt = 0;
 
 function setInit() {
 
@@ -133,7 +135,8 @@ function setInitSetting() {
 
     setClock();
 
-    //setDustJson();
+    setDustJson();
+    setWeatherJson();
     //setPage("0");
 
     setTimeout(function () {
@@ -158,21 +161,23 @@ function setInitSetting() {
             }
         });
     }, 500);
+}
 
-    if (m_mode == "LED") {
-        $(".area_side").hide();
-        $("#id_sub_cont .wrap .container").addClass("led");
-        $(".modal").addClass("led");
-        $(".landing").hide();
-        if (m_notice_list.length > 0) {
-            setTimeout(setPage, 750, "0");
-            //setTimeout(setNoticeDrawInfo, 800, "0");
-        }
-    } else {
-        $('.nav_main li, .nav_gnb li').removeClass('active');
-        $(`.nav_main li[code="${1}"], .nav_gnb li[code="${1}"]`).addClass('active');
-        //        setTimeout(setPage, 750, "1");        
+function setLEDModeOn() {
+    m_mode = "LED";
+    $(".area_side").hide();
+    $("#id_sub_cont .wrap .container").addClass("led");
+    $(".modal").addClass("led");
+    $(".landing").hide();
+    if (m_notice_list.length > 0) {
+        setTimeout(setPage, 750, "0");
+        //setTimeout(setNoticeDrawInfo, 800, "0");
     }
+    channel.onmessage = (event) => {
+        console.log("메시지를 받았습니다:", event.data);
+        // event.data.message 형태로 접근 가능
+        setLedCastFrame(event.data.frame, event.data.num, event.data.page, event.data.cnt, event.data.pop);
+    };
 }
 
 //kiosk_contents를 읽기
@@ -201,12 +206,11 @@ function setHideCover() {
 }
 
 function setDustJson() {
-    console.log((new Date).getTime());
+    //console.log((new Date).getTime());
     $.ajax({
         url: "https://www.kma2024.svr.kr/esdaedeok/dust.asp?user=esdaedeok&code=9e5bdf26ec5a4f60b660081b664c862e&mode=state&chkdate=" + (new Date).getTime(),
         dataType: "jsonp",
         success: function (data) {
-            //console.log("https://www.kma2024.svr.kr/esdaedeok/dust.asp?user=esdaedeok&code=9e5bdf26ec5a4f60b660081b664c862e&mode=state&chkdate=" + (new Date).getTime());
             setDust(data);
         },
         error: function (xhr, status, error) {
@@ -217,13 +221,33 @@ function setDustJson() {
 
 function setDust(_json) {
     console.log("setDust");
-    //console.log(_json);
+    console.log(_json);
     let t_value = parseInt(_json.pm10_info_num);
     let t_type = getGradeNum10(t_value);
-    $("#id_dust_title").html(m_dust_title_list[t_type]);
+    $(".dust_title").html(m_dust_title_list[t_type]);
     $("#id_dust_image").attr("src", m_dust_img_list[t_type]);
     $("#id_dust_value").html(t_value + "㎍/㎥");
+}
 
+function setWeatherJson() {
+
+    $.ajax({
+        url: "https://www.kma2024.svr.kr/weather/v1/weather.asp?user=lscheongju01&code=b0bb578e09ef4415ab9f0948073af925&mode=state&chkdate=" + (new Date).getTime(),
+        dataType: 'jsonp',
+        success: function (data) {
+            setWeather(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {}
+    });
+}
+
+function setWeather(_json) {
+    console.log("setWeather");
+    console.log(_json);
+
+    $('.weather_icon').attr('src', '/images/weather/' + _json.date_0_data_wficon + '.png');
+    var temp = _json.date_0_data_temp.replace("℃", "˚")
+    $('.weather_temp').html(temp + "˚");
 }
 
 
@@ -245,8 +269,8 @@ function getGradeNum10(_num) {
 }
 
 function onClickBtnBack(_obj) {
-    if ($("#id_popup_trophy").css("display") != "none") {
-        $("#id_popup_trophy").hide();
+    if ($("#id_popup_img").css("display") != "none") {
+        $("#id_popup_img").hide();
         return;
     }
     if (m_curr_document != null) {
@@ -260,6 +284,8 @@ function onClickPopupClose(_obj) {
     $("#id_popup_img").hide();
     //$("#id_popup_video_obj")[0].pause();
     //$("#id_popup_video_obj")[0].src = '';
+    m_img_swiper.slideTo(0,0);
+    m_curr_document.setPopupClose();
 }
 
 function onClickBtnHome(_obj) {
@@ -267,6 +293,8 @@ function onClickBtnHome(_obj) {
 }
 
 function setMainReset() {
+    
+    $("#id_popup_img").hide();
 
     if (m_mode == "LED") {
         if (m_notice_list.length > 0) {
@@ -317,6 +345,7 @@ function setMainInterval() {
         m_dust_time_chk = 0;
         //setDust("");
         setDustJson();
+        setWeatherJson();
     }
 }
 
@@ -413,6 +442,8 @@ function setPage(_code) {
     console.log('index setPage', _code);
     setHideCover();
 
+    m_pop_cnt = 0;
+    m_pop_img_cnt = 0;
     $("#id_popup_trophy").hide();
     $("#id_popup_vod").hide();
     $("#id_popup_img").hide();
@@ -487,11 +518,11 @@ function setPopupVod(_obj) {
     $("#id_popup_vod").show();
 }
 
-function setPopupImg(_obj) {
-
+function setPopupImg(_obj, _id) {
+    //console.log("_id", _id);
     console.log(_obj);
     m_img_list = _obj.file_list;
-
+    m_pop_cnt = _id;
     $("#id_popup_img_txt_1").html(_obj.title);
     $("#id_popup_img_txt_2").html(_obj.desc);
     $("#id_popup_img").show();
@@ -577,9 +608,11 @@ function setDebug() {
 }
 
 function setLedCastFrame(_frame, _num, _page, _cnt, _pop) {
-    //console.log("Frame : " + _frame, "Num : " + _num, "Page : " + _page);
+    console.log(_frame, _num, _page, _cnt, _pop);
+    //console.log("Frame : " + _frame, "Num : " + _num, "Page : " + _page, "Cnt : " + _cnt, "Pop : " + _pop);
     m_time_last = new Date().getTime();
-    setPage(_frame);
+    setPage(_frame.toString());
+
     m_curr_document.setPage(_num);
     m_curr_document.setSubPage(_page, _cnt);
     setPopSwiperPage(_pop);
@@ -591,11 +624,20 @@ function onClickLedCast(_obj) {
     }
     //m_curr_page_num
     let t_list = m_curr_document.getPage().split(",");
-    let t_frame = m_curr_page_num;
-    let t_num = t_list[0];
-    let t_page = t_list[1];
-    let t_cnt = t_list[2];
-    let t_pop = 0;
-    //console.log(m_curr_page_num, m_curr_document.getPage());
-    setLedCastFrame(t_frame, t_num, t_page, t_cnt, t_pop);
+    //console.log(t_list);
+    let t_frame = parseInt(m_curr_page_num);
+    let t_num = parseInt(t_list[0]);
+    let t_page = parseInt(t_list[1]);
+    let t_cnt = parseInt(t_list[2]);//m_pop_cnt;
+    let t_pop = m_img_swiper.activeIndex+1;
+    console.log(t_frame, t_num, t_page, t_cnt, t_pop);
+    //setLedCastFrame(t_frame, t_num, t_page, t_cnt, t_pop);
+    const data = {
+        frame: t_frame,
+        num: t_num,
+        page: t_page,
+        cnt: t_cnt,
+        pop: t_pop
+    };
+    channel.postMessage(data);
 }

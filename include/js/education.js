@@ -13,8 +13,9 @@ let m_meal_events = [];
 let m_event_events = [];
 let m_holiday_list = [];
 
-let m_curr_page = 0;
-let m_curr_sub_page = 0;
+let m_curr_page_num = 0;
+let m_curr_sub_page = -1;
+let m_back_list = [];
 
 function setInit() {
     console.log(m_this_name + " Init");
@@ -44,8 +45,12 @@ function setInit() {
 }
 
 function getPage() {
-    let t_str = m_curr_page + ", " + m_img_swiper.activeIndex + ", 0";
+    let t_str = m_curr_page_num + ", " + (m_img_swiper.activeIndex + 1) + "," + (m_curr_sub_page + 1);
     return t_str;
+}
+
+function setPopupClose() {
+    m_curr_sub_page = -1;
 }
 
 function setLoadSetting(_url) {
@@ -256,8 +261,9 @@ function setImgListUp() {
 }
 
 function onClickImg(_id) {
+    m_curr_sub_page = _id;
     if (this.PAGEACTIVEYN == false) {
-        window.parent.setPopupImg(m_img_list[_id]);
+        window.parent.setPopupImg(m_img_list[_id], _id);
     }
 }
 
@@ -277,7 +283,7 @@ function onClickMainMenu(_obj) {
     setPage(t_code);
 }
 
-function setPage(_code) {
+function setPage(_code, _isBack = false) {
     $("#id_photo_list").hide();
     $("#id_calendar").hide();
     $("#id_calendar_zone_sch").css("top", "2160px");
@@ -290,24 +296,28 @@ function setPage(_code) {
     $(`.list_contents li[code="${_code}"]`).addClass('active');
     $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
 
-    m_curr_page = parseInt(_code);
+    m_curr_page_num = parseInt(_code);
+	
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
 
-    if (m_curr_page == 1) {
+    if (m_curr_page_num == 1) {
 
-    } else if (m_curr_page == 2) {
+    } else if (m_curr_page_num == 2) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_sch").show();
         $("#id_calendar_zone_sch").css("top", "0px");
-    } else if (m_curr_page == 3) {
+    } else if (m_curr_page_num == 3) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_meal").show();
         $("#id_calendar_zone_meal").css("top", "0px");
-    } else if (m_curr_page == 4) {
+    } else if (m_curr_page_num == 4) {
         $("#id_calendar").show();
         //$("#id_calendar_zone_event").show();
         $("#id_calendar_zone_event").css("top", "0px");
 
-    } else if (m_curr_page == 5) {
+    } else if (m_curr_page_num == 5) {
         m_img_swiper.slideTo(0, 0);
         $("#id_photo_list").show();
 
@@ -315,13 +325,17 @@ function setPage(_code) {
 }
 
 function setSubPage(_num, _cnt) {
+    console.log("setSubPage", _num, _cnt);
     let t_num = parseInt(_num) - 1;
-    if (m_curr_page == 5) {
+    if (m_curr_page_num == 5) {
         m_img_swiper.slideTo(t_num, 0);
 
+        console.log(t_num);
         _cnt -= 1;
-        if (_cnt != 0) {
-            let t_cnt = t_num * 8 + _cnt;
+        //console.log(t_num, _cnt,t_list.length);
+        if (_cnt >= 0 && m_img_list.length > 0) {
+            let t_cnt = _cnt;
+            console.log(t_cnt);
             if (t_cnt < m_img_list.length) {
                 onClickImg(t_cnt);
             }
@@ -331,13 +345,36 @@ function setSubPage(_num, _cnt) {
 
 
 function setMainReset() {
+    m_back_list = [];
+    m_curr_sub_page = -1;
     onClickMainMenu($(".list_contents li[code='1']"));
 }
 
 
+
 function onClickBtnBack() {
-    window.parent.setMainReset();
+    
+    // 리스트가 비어있으면 메인 리셋
+    if (m_back_list.length == 0) {
+        window.parent.setMainReset();
+        return; // 함수 종료
+    }
+
+    // 1. 마지막에 저장된 것을 지움 (pop 사용, 변수에 재할당 금지)
+    m_back_list.pop(); 
+    console.log(m_back_list);
+    // 2. 지우고 나서 남은게 있는지 확인
+    if (m_back_list.length == 0) {
+        // 지웠더니 더 이상 갈 곳이 없다면? -> 메인 리셋으로 가거나 처리 필요
+        window.parent.setMainReset();
+    } else {
+        // 3. 그 다음에 마지막인걸(이전 페이지) 가져와서 이동
+        let t_page = m_back_list[m_back_list.length - 1];
+        console.log(t_page);
+        setPage(t_page, true);
+    }
 }
+
 
 
 function setMainInterval() {

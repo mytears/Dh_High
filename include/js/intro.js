@@ -11,6 +11,8 @@ let m_main_swiper = null;
 let m_curr_page_num = 0;
 let m_curr_sub_page = 0;
 
+let m_back_list = [];
+
 function setInit() {
     console.log(m_this_name + " Init");
     if (this.PAGEACTIVEYN == true) {
@@ -92,7 +94,7 @@ function onClickMainMenu(_obj) {
     setPage(t_code);
 }
 
-function setPage(_code) {
+function setPage(_code, _isBack = false) {
     $("#id_img_list").hide();
     $("#id_img_list .img_zone img").hide();
     
@@ -101,6 +103,9 @@ function setPage(_code) {
     $(".title h2").html($(`.list_contents li[code="${_code}"]`).text());
     
     m_curr_page_num = parseInt(_code);
+    if (!_isBack) {
+        m_back_list.push(m_curr_page_num);
+    }
 
     $("#id_img_" + _code).show();
     $("#id_img_list").show();
@@ -112,14 +117,32 @@ function setSubPage(_num, _cnt){
 
 
 function setMainReset() {
+    m_back_list = [];
     onClickMainMenu($(".list_contents li[code='1']"));
 }
 
-
 function onClickBtnBack() {
-    window.parent.setMainReset();
-}
+    
+    // 리스트가 비어있으면 메인 리셋
+    if (m_back_list.length == 0) {
+        window.parent.setMainReset();
+        return; // 함수 종료
+    }
 
+    // 1. 마지막에 저장된 것을 지움 (pop 사용, 변수에 재할당 금지)
+    m_back_list.pop(); 
+    console.log(m_back_list);
+    // 2. 지우고 나서 남은게 있는지 확인
+    if (m_back_list.length == 0) {
+        // 지웠더니 더 이상 갈 곳이 없다면? -> 메인 리셋으로 가거나 처리 필요
+        window.parent.setMainReset();
+    } else {
+        // 3. 그 다음에 마지막인걸(이전 페이지) 가져와서 이동
+        let t_page = m_back_list[m_back_list.length - 1];
+        console.log(t_page);
+        setPage(t_page, true);
+    }
+}
 
 function setMainInterval() {
     var time_gap = 0;
